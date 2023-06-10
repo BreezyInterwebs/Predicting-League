@@ -12,7 +12,7 @@ From before, we need to select variables that can be determined during a match, 
 - `Firsttotals` are a stat that I explored in my EDA, which I felt had good correlation to the performance of a team. It encodes how many "first checkpoints" a team accomplishes, such as first tower or first to three towers.
 - `League` tells us what competitive league that the match took place in. Even with similar performance metrics, two matches may potentially take different routes depending on the average skill level.
 
-<a name="baseline">### Baseline Model</a>
+### <a name="baseline">Baseline Model</a>
 
 For our baseline model, we will make a classifier using a Decision Tree to predict the win or loss of a match. Here, we'll start with two basic features: the `league` that the team is in, and the `killsat10`. 
 - `league` is a qualitative feature which is nominal because teams can only belong to one league at a time. One may argue that `league` is ordinal because there are certainly leagues which are more highly regarded in terms of average skill. However, the details of that are messy, and so we regard it as not ordinal. Either way, we can OneHotEncode this qualitative feature.
