@@ -36,8 +36,7 @@ We did a few more transformations of our data before passing it into the model.
 - From before, we OneHotEncode `league`.
 
 In order to select the hyperparameters for our model, I used an iterative algorithm. In total, I trained 58 models. The hyperparameters I varied were the `criterion` of the decision tree, which takes `entropy` or `gini`, and the max-depth of the tree, which I tested 2-30. I fit the model, then calculated the training and testing prediction rates, put them all in a list and found the best combination. 
-<
-iframe src="assets/training.html" width=800 height=600 frameBorder=0></iframe>
+<iframe src="assets/training.html" width=800 height=600 frameBorder=0></iframe>
 
 This combination (surprisingly) turned out to be `max_depth` = 5, and `criterion` = entropy. I knew from previous experience with decision trees that increasing the depth will increase the accuracy of training predictions, while plateauing or even decreasing the accuracy of testing predictions. Therefore, I predicted that the best `max_depth` would be somewhat low.
 
