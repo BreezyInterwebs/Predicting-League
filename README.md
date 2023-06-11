@@ -25,7 +25,7 @@ Once we created the model and evaluated its performance on both our training and
 
 ### Final Model
 
-As outlined in [Framing the Problem](#frame), all of the variables that we selected contain information about how the game is progressing, especially focused around the 10 minute mark. Often in games, teams which can gain an early advantage often use that momentum to snowball into a win. Therefore, we will add all of the variables we selected to our model to see if we can improve on our baseline.
+As outlined in [Framing the Problem](#frame), all of the variables that we selected contain information about how the game is progressing, especially focused around the 10 minute mark. In games, teams which can gain an early advantage often use that momentum to snowball into a win. Therefore, we will add all of the variables we selected to our model to see if we can improve on our baseline.
 
 We did a few more transformations of our data before passing it into the model.
 - `Kills, Deaths, Assists at 10` were transformed according to the proportion of K, D, and A's that the respective team shared at the 10 minute mark. For example, if Team A had 3 kills and Team B had 4, their corresponding transformed stat would be 3/7 and 4/7. In some way, we could think about this as normalizing the data - you would be ahead if you had 3 kills and the other had 0, whereas you'd be severely behind if the other team had 10.
