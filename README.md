@@ -1,7 +1,5 @@
 by: Jalen Li
 
-## Analysis
-
 ### <a name="frame">Framing the Problem</a>
 
 In my [exploratory data analysis](https://breezyinterwebs.github.io/Analyzing-League/), I looked at potential correlations between a team's end statistics and the outcome of their match. While we found that there is a strong correlation, knowing that a correlation exists is not enough. Furthermore, using the end statistics does not help us, because if we know the end statistics, we also know if a team wins or not. Therefore, we are interested in whether we can predict the outcome of a match using game statistics that arise during a match. Since a team can only win or lose a match, we are interested in creating a classifier.
@@ -23,7 +21,7 @@ We also select a random 75-25 training-validation split. However, since entries 
 
 Since we are making this model as our baseline, our hyperparameter for tree depth must be random initially. I picked 5 because that seems somewhat reasonable. 
 
-Once we created the model and evaluated its performance on both our training and testing set, we see about 60% accurate predictions from our Decision Tree classifier. This isn't particularly good, because we would expect a 50% accurate prediction rate if we were to guess completely at random. However, for such little data provided and random hyperparameter selection, this is good news. We can most likely improve this by a lot!
+Once we created the model and evaluated its performance on both our training and testing set, we see about **60% accurate predictions** from our Decision Tree classifier. This isn't particularly good, because we would expect a 50% accurate prediction rate if we were to guess completely at random. However, for such little data provided and random hyperparameter selection, this is good news. We can most likely improve this by a lot!
 
 ### Final Model
 
@@ -40,7 +38,20 @@ In order to select the hyperparameters for our model, I used an iterative algori
 
 This combination (surprisingly) turned out to be `max_depth` = 5, and `criterion` = entropy. I knew from previous experience with decision trees that increasing the depth will increase the accuracy of training predictions, while plateauing or even decreasing the accuracy of testing predictions. Therefore, I predicted that the best `max_depth` would be somewhat low.
 
-With these hyperparameters selected, I checked the model on our training and testing set from before. Now, both of our prediction accuracy rates were approximately 79%. A big jump from 60%!
+With these hyperparameters selected, I checked the model on our training and testing set from before. Now, both of our prediction accuracy rates were approximately **78%**. A big jump from 60%!
 
 ##### A Quick Note
+
 While I believe that engineering the features in this way makes sense to more accurately represent the predictors, there was a flaw that I ran into. Specifically, the `K,D,A` engineering required data to be paired in order to calculate the proportion correctly, and so taking a naive random subset would break this feature. It was at this point that I revised my training split. Instead of asking sklearn to do the split for me, I defined a custom function which took a test% of odd indicies, added 1 to get a test% of even indicies, then used the combination of the set and the negation of that set to get my testing and training data. This got my training and testing sets to work properly, but also meant that I could not use sklearn's `GridSearchCV`, because it took both a random subset and potentially an odd number of data. Therefore, I elected not to use k-fold CV, as I figured it would not greatly affect the performance of a hyperparameter if I was going to evaluate the accuracy prediction rate at the end anyway.
+
+### Fairness Assessment
+
+When creating models, one thing that should be considered is whether the model is fair across groups. For this dataset, I'm interested if the model predicts differently depending on the `playoffs`. Being in the playoffs creates a much higher-stakes situation for the teams involved, and that may make matches more unpredictable. Does our model hold up? In the dataset, the `playoffs` are encoded in 1 or 0, a binary classification for if the match takes place in a playoff or not.
+
+To test this, we'll be using the absolute difference in prediction accuracy.
+*Null Hypothesis:* The absolute difference is 0. The model is fair to both scrims and playoffs.
+*Alternative Hypothesis:* The absolute difference is not 0. The model is potentially biased.
+
+For my significance level, I've decided to use `alpha` = 0.01. While `alpha` = 0.05 is a rule of thumb, I often feel that a 1/20 is too often to reject. Hence, 1/100 feels like a much more reasonable level to reject away. We perform a modified version of permutation testing, and here we show a histogram of our results.
+<iframe src="assets/permutation.html" width=800 height=600 frameBorder=0></iframe>
+
