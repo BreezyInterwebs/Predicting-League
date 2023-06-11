@@ -48,10 +48,12 @@ While I believe that engineering the features in this way makes sense to more ac
 
 When creating models, one thing that should be considered is whether the model is fair across groups. For this dataset, I'm interested if the model predicts differently depending on the `playoffs`. Being in the playoffs creates a much higher-stakes situation for the teams involved, and that may make matches more unpredictable. Does our model hold up? In the dataset, the `playoffs` are encoded in 1 or 0, a binary classification for if the match takes place in a playoff or not.
 
-To test this, we'll be using the absolute difference in prediction accuracy.
-*Null Hypothesis:* The absolute difference is 0. The model is fair to both scrims and playoffs.
+To test this, we'll be using the absolute difference in prediction accuracy.<br>
+*Null Hypothesis:* The absolute difference is 0. The model is fair to both scrims and playoffs.<br>
 *Alternative Hypothesis:* The absolute difference is not 0. The model is potentially biased.
 
 For my significance level, I've decided to use `alpha` = 0.01. While `alpha` = 0.05 is a rule of thumb, I often feel that a 1/20 is too often to reject. Hence, 1/100 feels like a much more reasonable level to reject away. We perform a modified version of permutation testing, and here we show a histogram of our results.
 <iframe src="assets/permutation.html" width=800 height=600 frameBorder=0></iframe>
+
+For this permutation test, our p-value is 0.025. Therefore, we'd fail to reject the null. It seems that our model performs similarly for both games in and out of playoffs.
 
